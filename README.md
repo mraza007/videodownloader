@@ -1,2 +1,20 @@
 # videodownloader
-A simple python script that will allow you to download youtube videos 
+A Simple Script writtten in Python to Download YouTube Videos
+These videos can also be downloaded as audio
+
+### Installation
+1. Clone the Repo
+2. ```Bash
+cd videodownloader
+# run pipenv shell
+pipenv shell
+# Then install the dependencies
+pipenv install
+# To Run the script 
+python3 script.py
+```
+
+If you would like to suggest changes feel free to fork this repo and create PR or submit an issue
+
+Feel Free to DM on twitter if you have any questions
+[twitter](http://www.twitter.com/muhammad_o7)
