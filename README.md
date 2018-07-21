@@ -4,7 +4,7 @@ These videos can also be downloaded as audio
 
 ### Installation
 1. Clone the Repo
-2. ```Bash
+```Bash
 cd videodownloader
 # run pipenv shell
 pipenv shell
