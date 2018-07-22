@@ -18,29 +18,29 @@ x = """\
 print(x)
 while True:
 	user = input('To Download Video/Audio Y/n: ')
-	if user == 'Y':
+	if user.lower() in ['yes', 'y']:
 		url = input('Enter Url: ')
 		link = YouTube(url)
 		form = input('Do you want to download video or audio: ')
-		if form == 'video':
+		if form.lower() in ['video', 'v']:
 			download_video = link.streams.first()
 			print('Download Started')
 			download_video.download()
-		elif form == 'audio':
+		elif form.lower() in ['audio', 'a']:
 			warn = input('Audio Downloads take longer Do you want to Continue Y/n: ')
-			if warn == 'Y':
+			if warn.lower() in ['yes', 'y']:
 				download_mp3 = link.streams.filter(only_audio=True).first()
 				print('Download Started')
 				download_mp3.download('audio/')
-			elif warn == 'n':
+			elif warn.lower() in ['no', 'n']:
 				vid = input('To Download Vid Y/n ')
-				if vid == 'Y':
+				if vid.lower() in ['yes', 'y']:
 					download_video = link.streams().first()
 					print('Download Started')
 					download_video.download('videos/')
-				elif vid == 'n':
+				elif vid.lower() in ['no', 'n']:
 					exit()
-	if user == 'n':
+	if user.lower() in ['no', 'n']:
 		print("""
 
 							$$$$$$$$\ $$\                           $$\                       $$$$$$$$\                        $$\   $$\           $$\                     
