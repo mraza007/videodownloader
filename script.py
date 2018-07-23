@@ -46,17 +46,17 @@ def interactive_mode():
             url = input('Enter Url: ')
             form = input('Do you want to download video or audio: ')
             if form.lower() in ['video', 'v']:
-                download_youtube_stream(url, output_path='videos/')
+                download_youtube_video(url, output_path='videos/')
 
             elif form.lower() in ['audio', 'a']:
                 warn = input('Audio Downloads take longer Do you want to Continue Y/n: ')
                 if warn.lower() in ['yes', 'y']:
-                    download_youtube_stream(url, audio_only=True, output_path='audio/')
+                    download_youtube_video(url, audio_only=True, output_path='audio/')
 
                 elif warn.lower() in ['no', 'n']:
                     vid = input('To Download Vid Y/n ')
                     if vid.lower() in ['yes', 'y']:
-                        download_youtube_stream(url, output_path='videos/')
+                        download_youtube_video(url, output_path='videos/')
 
                     elif vid.lower() in ['no', 'n']:
                         exit()
@@ -65,9 +65,9 @@ def interactive_mode():
             exit()
 
 
-def download_youtube_stream(url, audio_only=False, output_path=None, filename=None, filename_prefix=None):
+def download_youtube_video(url, audio_only=False, output_path=None, filename=None, filename_prefix=None):
     """
-    Download a YouTube Video Stream.
+    Download a YouTube Video.
     :param url: Full URL to YouTube Video or YouTube Video ID
     :type url: str
     :param audio_only: Download only the audio for the stream. Takes longer than video.
@@ -107,7 +107,7 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     if args.url:
-        download_youtube_stream(args.url, audio_only=args.audio_only,
-                                output_path=args.output_path, filename=args.filename)
+        download_youtube_video(args.url, audio_only=args.audio_only,
+                               output_path=args.output_path, filename=args.filename)
     else:
         interactive_mode()
