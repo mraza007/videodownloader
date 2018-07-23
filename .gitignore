@@ -107,4 +107,4 @@ venv.bak/
 .idea/
 
 # Downloaded video/audio
-**.mp4
+*.mp4
