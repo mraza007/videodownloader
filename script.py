@@ -105,11 +105,7 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     if args.url:
-        if args.audio_only:
-            download_youtube_stream(args.url, audio_only=True,
-                                    output_path=args.output_path, filename=args.filename)
-        else:
-            download_youtube_stream(args.url, audio_only=False,
-                                    output_path=args.output_path, filename=args.filename)
+        download_youtube_stream(args.url, audio_only=args.audio_only,
+                                output_path=args.output_path, filename=args.filename)
     else:
         interactive_mode()
