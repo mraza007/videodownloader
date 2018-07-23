@@ -2,6 +2,7 @@
 # A simple Python Script that will allow you download video
 import argparse
 
+from os import makedirs
 from pytube import YouTube
 
 
@@ -80,6 +81,7 @@ def download_youtube_video(url, audio_only=False, output_path=None, filename=Non
     :type filename_prefix: str
     :return: None
     """
+    makedirs(output_path, exist_ok=True)
     if 'https' not in url:
         url = 'https://www.youtube.com/watch?v=%s' % url
     video = YouTube(url)
