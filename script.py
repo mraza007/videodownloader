@@ -70,7 +70,7 @@ def download_youtube_video(url, audio_only=False, output_path=None, filename=Non
     Download a YouTube Video.
     :param url: Full URL to YouTube Video or YouTube Video ID
     :type url: str
-    :param audio_only: Download only the audio for the stream. Takes longer than video.
+    :param audio_only: Download only the audio for the video. Takes longer than video.
     :type audio_only: bool
     :param output_path: Path to folder to output file.
     :type output_path: str
