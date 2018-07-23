@@ -68,7 +68,7 @@ def interactive_mode():
 def download_youtube_stream(url, audio_only=False, output_path=None, filename=None, filename_prefix=None):
     """
     Download a YouTube Video Stream.
-    :param url: Full URL to YouTube Video
+    :param url: Full URL to YouTube Video or YouTube Video ID
     :type url: str
     :param audio_only: Download only the audio for the stream. Takes longer than video.
     :type audio_only: bool
@@ -80,6 +80,8 @@ def download_youtube_stream(url, audio_only=False, output_path=None, filename=No
     :type filename_prefix: str
     :return: None
     """
+    if 'https' not in url:
+        url = 'https://www.youtube.com/watch?v=%s' % url
     video = YouTube(url)
     if audio_only:
         stream = video.streams.filter(only_audio=True).first()
@@ -92,7 +94,7 @@ def download_youtube_stream(url, audio_only=False, output_path=None, filename=No
 
 def parse_args():
     parser = argparse.ArgumentParser(description='YouTube Video/Audio Downloader')
-    parser.add_argument('-u', '--url', help='YouTube URL to download.', default=None)
+    parser.add_argument('-u', '--url', help='YouTube URL or YouTube Video ID to download.', default=None)
     parser.add_argument('-o', '--output-path', help='Output Directory Path', default=None)
     parser.add_argument('-f', '--filename', help='Override the output filename. Does not override file extension',
                         default=None)
