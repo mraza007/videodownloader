@@ -21,6 +21,7 @@ You can either run the script directly for interactive mode, or use the command 
     python script.py
     python script.py -u rfscVS0vtbw -o videos/ -f my_downloaded_video
     python script.py -u rfscVS0vtbw -o audio/ -f my_downloaded_audio --audio-only
+    python script.py --help
     
     -u --url            YouTube URL or YouTube Video ID to download
     -o --output-path    Output Directory Path
