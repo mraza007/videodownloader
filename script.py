@@ -86,7 +86,6 @@ def download_youtube_stream(url, audio_only=False, output_path=None, filename=No
     else:
         stream = video.streams.first()
     print('Download Started')
-    print(filename_prefix)
     stream.download(output_path=output_path, filename=filename)
     print('Download Complete')
 
