@@ -37,6 +37,7 @@ Feel Free to DM on twitter if you have any questions
 Here's the demo on how to use it
 
 <div align="center">
-  <a href="https://vimeo.com/281200561"><img width="60%" src="assets/img.png" alt="view demo"></a>
+  <a href="https://vimeo.com/281200561"><img width="60%" src="assets/img.png" alt="view demo"></a><br>
+  <img src="assets/gui_screenshot.png" alt='GUI Screenshot">
 </div>
 
