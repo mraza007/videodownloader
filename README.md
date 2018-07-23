@@ -37,6 +37,6 @@ Feel Free to DM on twitter if you have any questions
 Here's the demo on how to use it
 
 <div align="center">
-  <a href="https://vimeo.com/281200561"><img width="60%" src="assets/screenshots/youtube_screenshot.png" alt="view demo on YouTube"></a>
+  <a href="https://vimeo.com/281200561"><img width="60%" src="assets/img.png" alt="view demo"></a>
 </div>
-[Demo](https://vimeo.com/281200561)
+
