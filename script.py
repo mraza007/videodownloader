@@ -66,13 +66,28 @@ def interactive_mode():
 
 
 def download_youtube_stream(url, audio_only=False, output_path=None, filename=None, filename_prefix=None):
+    """
+    Download a YouTube Video Stream.
+    :param url: Full URL to YouTube Video
+    :type url: str
+    :param audio_only: Download only the audio for the stream. Takes longer than video.
+    :type audio_only: bool
+    :param output_path: Path to folder to output file.
+    :type output_path: str
+    :param filename: Filename override. Does not override extension.
+    :type filename: str
+    :param filename_prefix: Currently Does Not Work on pytube
+    :type filename_prefix: str
+    :return: None
+    """
     video = YouTube(url)
     if audio_only:
         stream = video.streams.filter(only_audio=True).first()
     else:
         stream = video.streams.first()
     print('Download Started')
-    stream.download(output_path=output_path, filename=filename, filename_prefix=filename_prefix)
+    print(filename_prefix)
+    stream.download(output_path=output_path, filename=filename)
     print('Download Complete')
 
 
@@ -82,7 +97,7 @@ def parse_args():
     parser.add_argument('-o', '--output-path', help='Output Directory Path', default=None)
     parser.add_argument('-f', '--filename', help='Override the output filename. Does not override file extension',
                         default=None)
-    parser.add_argument('-p', '--prefix', help='Filename Prefix', default=None)
+    # parser.add_argument('-p', '--filename_prefix', help='Filename Prefix', default=None) Currently does not work
     parser.add_argument('-a', '--audio-only', help='Download Audio Only', action='store_true', default=False)
 
     return parser.parse_args()
@@ -93,11 +108,9 @@ if __name__ == '__main__':
     if args.url:
         if args.audio_only:
             download_youtube_stream(args.url, audio_only=True,
-                                    output_path=args.output_path, filename=args.filename,
-                                    filename_prefix=args.filename_prefix)
+                                    output_path=args.output_path, filename=args.filename)
         else:
             download_youtube_stream(args.url, audio_only=False,
-                                    output_path=args.output_path, filename=args.filename,
-                                    filename_prefix=args.filename_prefix)
+                                    output_path=args.output_path, filename=args.filename)
     else:
         interactive_mode()
