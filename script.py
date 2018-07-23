@@ -87,9 +87,9 @@ def download_youtube_stream(url, audio_only=False, output_path=None, filename=No
         stream = video.streams.filter(only_audio=True).first()
     else:
         stream = video.streams.first()
-    print('Download Started')
+    print('Download Started: %s' % video.title)
     stream.download(output_path=output_path, filename=filename)
-    print('Download Complete')
+    print('Download Complete: %s' % video.title)
 
 
 def parse_args():
