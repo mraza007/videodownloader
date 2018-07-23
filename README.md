@@ -26,7 +26,7 @@ You can either run the script directly for interactive mode, or use the command 
     -u --url            YouTube URL or YouTube Video ID to download
     -o --output-path    Output Directory Path
     -f --filename       Override the output filename. Does not override file extension
-    -a --audio-only     Download Auido Only
+    -a --audio-only     Download Audio Only
     
 
 
