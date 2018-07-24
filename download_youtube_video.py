@@ -27,7 +27,7 @@ def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
     """
     if output_path:
         makedirs(output_path, exist_ok=True)
-    if 'https' not in url:
+    if 'http' not in url:
         url = 'https://www.youtube.com/watch?v=%s' % url
     if proxies:
         video = YouTube(url, proxies=proxies)
