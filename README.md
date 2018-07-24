@@ -57,6 +57,8 @@ as well as pyinstaller. Then run the following command from the script directory
 
     pyinstaller --clean --onefile pyinstaller.spec
     
+The EXE will be put into the `dist` directory within the script direcroy.
+    
 ### Contributing
 
 If you would like to suggest changes feel free to fork this repo and create PR or submit an issue
