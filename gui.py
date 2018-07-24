@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.6
 import tkinter as tk
+import os.path
 
 
 from threading import Thread
@@ -94,5 +95,5 @@ if __name__ == '__main__':
     root = tk.Tk()
     app = YouTubeDownloadGUI(master=root)
     app.master.title('YouTube Video/Audio Downloader')
-    app.master.iconbitmap('assets/ytdl_gyq_icon.ico')
+    app.master.tk.call('wm', 'iconphoto', app.master._w, tk.PhotoImage(file='assets/ytdl.png'))
     app.mainloop()
