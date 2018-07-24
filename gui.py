@@ -143,6 +143,7 @@ class YouTubeDownloadGUI(tk.Frame):
         self.btn_download.config(state=tk.DISABLED)
         self.btn_check_id.config(state=tk.DISABLED)
         self.btn_output_browse.config(state=tk.DISABLED)
+        [radio_button.config(state=tk.DISABLED) for radio_button in self.radio_video_audio]
         Thread(target=self.threaded_download).start()
 
     def update_progress_bar(self, stream, chunk, file_handle, bytes_remaining):
@@ -178,6 +179,7 @@ class YouTubeDownloadGUI(tk.Frame):
             self.btn_download.config(state=tk.NORMAL)
             self.btn_check_id.config(state=tk.NORMAL)
             self.btn_output_browse.config(state=tk.NORMAL)
+            [radio_button.config(state=tk.NORMAL) for radio_button in self.radio_video_audio]
 
 
 def resource_path(relative_path):
