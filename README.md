@@ -21,7 +21,9 @@ or use the command line arguments on the script (`script.py`).
 
     python3 gui.py
     python3 script.py
+    python3 script.py -u rfscVS0vtbw -l
     python3 script.py -u rfscVS0vtbw -o videos/ -f my_downloaded_video
+    python3 script.py -u rfscVS0vtbw -i 278 -o videos/ -f my_downloaded_itag_video
     python3 script.py -u rfscVS0vtbw -o audio/ -f my_downloaded_audio --audio-only
     python3 script.py --help
     
