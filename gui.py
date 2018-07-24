@@ -85,6 +85,7 @@ class YouTubeDownloadGUI(tk.Frame):
 
     def threaded_check_video(self):
         self.last_row = 5
+        self.stream.set(0)
         [radio_button.destroy() for radio_button in self.stream_widgets]
         if self.btn_download:
             self.btn_download.destroy()
