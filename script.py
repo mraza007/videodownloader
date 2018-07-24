@@ -2,8 +2,7 @@
 # A simple Python Script that will allow you download video
 import argparse
 
-from os import makedirs
-from pytube import YouTube
+from download_youtube_video import download_youtube_video
 
 
 def get_header():
@@ -64,34 +63,6 @@ def interactive_mode():
         if user.lower() in ['no', 'n']:
             print(get_footer())
             exit()
-
-
-def download_youtube_video(url, audio_only=False, output_path=None, filename=None, filename_prefix=None):
-    """
-    Download a YouTube Video.
-    :param url: Full URL to YouTube Video or YouTube Video ID
-    :type url: str
-    :param audio_only: Download only the audio for the video. Takes longer than video.
-    :type audio_only: bool
-    :param output_path: Path to folder to output file.
-    :type output_path: str
-    :param filename: Filename override. Does not override extension.
-    :type filename: str
-    :param filename_prefix: Currently Does Not Work on pytube
-    :type filename_prefix: str
-    :return: None
-    """
-    makedirs(output_path, exist_ok=True)
-    if 'https' not in url:
-        url = 'https://www.youtube.com/watch?v=%s' % url
-    video = YouTube(url)
-    if audio_only:
-        stream = video.streams.filter(only_audio=True).first()
-    else:
-        stream = video.streams.first()
-    print('Download Started: %s' % video.title)
-    stream.download(output_path=output_path, filename=filename)
-    print('Download Complete: %s' % video.title)
 
 
 def parse_args():
