@@ -65,9 +65,10 @@ class YouTubeDownloadGUI(tk.Frame):
         self.text_proxy.grid(row=3, column=1, columnspan=2)
 
         tk.Label(self, text='Media Type').grid(row=4, column=0)
-        self.radio_video_audio.append(tk.Radiobutton(self, text='Video', variable=self.audio_only, value=False))
+        self.radio_video_audio.append(tk.Radiobutton(self, text='Video', variable=self.audio_only,
+                                                     value=False, command=self.check_video))
         self.radio_video_audio.append(tk.Radiobutton(self, text='Audio (Takes Longer)', variable=self.audio_only,
-                                                     value=True))
+                                                     value=True, command=self.check_video))
         self.radio_video_audio[0].grid(row=4, column=1)
         self.radio_video_audio[1].grid(row=4, column=2)
 
