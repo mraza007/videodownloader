@@ -95,5 +95,5 @@ if __name__ == '__main__':
     root = tk.Tk()
     app = YouTubeDownloadGUI(master=root)
     app.master.title('YouTube Video/Audio Downloader')
-    app.master.tk.call('wm', 'iconphoto', app.master._w, tk.PhotoImage(file='assets/ytdl.png'))
+    app.master.tk.call('wm', 'iconphoto', app.master._w, tk.PhotoImage(file=os.path.abspath('assets/ytdl.png')))
     app.mainloop()
