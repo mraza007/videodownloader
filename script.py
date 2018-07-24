@@ -71,7 +71,8 @@ def parse_args():
     parser.add_argument('-o', '--output-path', help='Output Directory Path', default=None)
     parser.add_argument('-f', '--filename', help='Override the output filename. Does not override file extension',
                         default=None)
-    parser.add_argument('-p', '--proxy', help='Proxy to use. Ex http://xxx.xxx.xxx:8080', default=None)
+    parser.add_argument('-p', '--proxy', help='Proxy to use. Ex http://xxx.xxx.xxx:8080 '
+                                              'NOTE: You need https proxy for https URL!', default=None)
     parser.add_argument('-a', '--audio-only', help='Download Audio Only', action='store_true', default=False)
 
     parsed_args = parser.parse_args()
