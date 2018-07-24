@@ -1,5 +1,5 @@
 # videodownloader
-A Simple Script writtten in Python to Download YouTube Videos
+A Simple Script written in Python to Download YouTube Videos
 These videos can also be downloaded as audio
 
 ### Installation
@@ -29,6 +29,7 @@ or use the command line arguments on the script (`script.py`).
     -o --output-path    Output Directory Path
     -f --filename       Override the output filename. Does not override file extension
     -a --audio-only     Download Audio Only
+    -p --proxy          Proxy to use. Ex http://xxx.xxx.xxx:8080
     
 
 

@@ -71,16 +71,21 @@ def parse_args():
     parser.add_argument('-o', '--output-path', help='Output Directory Path', default=None)
     parser.add_argument('-f', '--filename', help='Override the output filename. Does not override file extension',
                         default=None)
-    # parser.add_argument('-p', '--filename_prefix', help='Filename Prefix', default=None) Currently does not work
+    parser.add_argument('-p', '--proxy', help='Proxy to use. Ex http://xxx.xxx.xxx:8080', default=None)
     parser.add_argument('-a', '--audio-only', help='Download Audio Only', action='store_true', default=False)
 
-    return parser.parse_args()
+    parsed_args = parser.parse_args()
+    if parsed_args.proxy:
+        parsed_args.proxy = {parsed_args.proxy.split(':')[0]: parsed_args.proxy}
+
+    return parsed_args
 
 
 if __name__ == '__main__':
     args = parse_args()
     if args.url:
         download_youtube_video(args.url, audio_only=args.audio_only,
-                               output_path=args.output_path, filename=args.filename)
+                               output_path=args.output_path, filename=args.filename,
+                               proxies=args.proxy)
     else:
         interactive_mode()
