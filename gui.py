@@ -67,7 +67,6 @@ class YouTubeDownloadGUI(tk.Frame):
 
     def download(self):
         self.btn_download['text'] = 'Downloading...'
-        print(self.filename_override.get())
         self.btn_download.config(state=tk.DISABLED)
         Thread(target=self.threaded_download).start()
 
