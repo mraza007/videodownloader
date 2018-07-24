@@ -29,9 +29,10 @@ or use the command line arguments on the script (`script.py`).
     -o --output-path    Output Directory Path
     -f --filename       Override the output filename. Does not override file extension
     -a --audio-only     Download Audio Only
-    -p --proxy          Proxy to use. Ex http://xxx.xxx.xxx:8080
+    -p --proxy          Proxy to use. Ex http://xxx.xxx.xxx:8080. NOTE: You need https proxy for https URL!
     
 
+**NOTE:** If you are using a proxy, you need https proxy for https URL!
 
 If you would like to suggest changes feel free to fork this repo and create PR or submit an issue
 
