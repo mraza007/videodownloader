@@ -102,9 +102,16 @@ class YouTubeDownloadGUI(tk.Frame):
             self.btn_download.config(state=tk.NORMAL)
 
 
+def resource_path(relative_path):
+    import sys
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath('.'), relative_path)
+
+
 if __name__ == '__main__':
     root = tk.Tk()
     app = YouTubeDownloadGUI(master=root)
     app.master.title('YouTube Video/Audio Downloader')
-    app.master.tk.call('wm', 'iconphoto', app.master._w, tk.PhotoImage(file=os.path.abspath('assets/ytdl.png')))
+    app.master.tk.call('wm', 'iconphoto', app.master._w, tk.PhotoImage(file=resource_path('assets/ytdl.png')))
     app.mainloop()
