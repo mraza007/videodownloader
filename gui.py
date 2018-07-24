@@ -19,10 +19,12 @@ class YouTubeDownloadGUI(tk.Frame):
         self.text_url = None
         self.text_output_path = None
         self.text_filename_override = None
+        self.text_proxy = None
         self.radio_video_audio = []
         self.audio_only = tk.BooleanVar(self)
         self.output_path = tk.StringVar(self)
         self.filename_override = tk.StringVar(self)
+        self.proxy = tk.StringVar(self)
 
         self.quit = None
 
@@ -45,21 +47,25 @@ class YouTubeDownloadGUI(tk.Frame):
         self.text_filename_override = tk.Entry(self, width=60, textvariable=self.filename_override)
         self.text_filename_override.grid(row=2, column=1, columnspan=2)
 
+        tk.Label(self, text='Proxy').grid(row=3, column=0)
+        self.text_proxy = tk.Entry(self, width=60, textvariable=self.proxy)
+        self.text_proxy.grid(row=3, column=1, columnspan=2)
+
         self.radio_video_audio.append(tk.Radiobutton(self, text='Video', variable=self.audio_only, value=False))
         self.radio_video_audio.append(tk.Radiobutton(self, text='Audio (Takes Longer)', variable=self.audio_only,
                                                      value=True))
 
-        self.radio_video_audio[0].grid(row=3, column=1)
-        self.radio_video_audio[1].grid(row=3, column=2)
+        self.radio_video_audio[0].grid(row=4, column=1)
+        self.radio_video_audio[1].grid(row=4, column=2)
 
         self.btn_download = tk.Button(self)
         self.btn_download['text'] = 'Download'
         self.btn_download['command'] = self.download
-        self.btn_download.grid(row=4, column=1, columnspan=2)
+        self.btn_download.grid(row=5, column=1, columnspan=2)
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=root.destroy)
-        self.quit.grid(row=5, column=1, columnspan=2)
+        self.quit.grid(row=6, column=1, columnspan=2)
 
     def browse_output_path(self):
         self.output_path.set(filedialog.askdirectory(initialdir='/', title='Select Output Folder'))
@@ -73,10 +79,15 @@ class YouTubeDownloadGUI(tk.Frame):
 
     def threaded_download(self):
         try:
+            if self.proxy.get() != '':
+                proxy = {self.proxy.get().split(':')[0]: self.proxy.get()}
+            else:
+                proxy = None
             filename = download_youtube_video(self.text_url.get(), audio_only=self.audio_only.get(),
                                               output_path=self.output_path.get(),
                                               filename=self.filename_override.get()
-                                              if self.filename_override.get() != '' else None)
+                                              if self.filename_override.get() != '' else None,
+                                              proxies=proxy)
             messagebox.showinfo('Download Complete!', 'Download Complete!\n%s' % filename)
         except PytubeError as e:
             messagebox.showerror('Something went wrong...', e)

@@ -2,7 +2,9 @@ from os import makedirs
 from pytube import YouTube
 
 
-def download_youtube_video(url, audio_only=False, output_path=None, filename=None, filename_prefix=None):
+def download_youtube_video(url, audio_only=False, output_path=None,
+                           filename=None, filename_prefix=None,
+                           proxies=None):
     """
     Download a YouTube Video.
     :param url: Full URL to YouTube Video or YouTube Video ID
@@ -15,6 +17,8 @@ def download_youtube_video(url, audio_only=False, output_path=None, filename=Non
     :type filename: str
     :param filename_prefix: Currently Does Not Work on pytube
     :type filename_prefix: str
+    :param proxies: Dictionary containing protocol (key) and address (value) for the proxies
+    :type proxies: dict
     :return: Filename of downloaded video/audio
     :rtype: str
     """
@@ -22,7 +26,11 @@ def download_youtube_video(url, audio_only=False, output_path=None, filename=Non
         makedirs(output_path, exist_ok=True)
     if 'https' not in url:
         url = 'https://www.youtube.com/watch?v=%s' % url
-    video = YouTube(url)
+    if proxies:
+        print(proxies)
+        video = YouTube(url, proxies=proxies)
+    else:
+        video = YouTube(url)
     if audio_only:
         stream = video.streams.filter(only_audio=True).first()
     else:
