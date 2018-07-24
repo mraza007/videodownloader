@@ -2,13 +2,15 @@ from os import makedirs
 from pytube import YouTube
 
 
-def download_youtube_video(url, audio_only=False, output_path=None,
+def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
                            filename=None, filename_prefix=None,
                            proxies=None):
     """
     Download a YouTube Video.
     :param url: Full URL to YouTube Video or YouTube Video ID
     :type url: str
+    :param itag: YouTube Stream ITAG to Download
+    :type itag: int
     :param audio_only: Download only the audio for the video. Takes longer than video.
     :type audio_only: bool
     :param output_path: Path to folder to output file.
@@ -30,11 +32,14 @@ def download_youtube_video(url, audio_only=False, output_path=None,
         video = YouTube(url, proxies=proxies)
     else:
         video = YouTube(url)
-    if audio_only:
+    if itag:
+        stream = video.streams.get_by_itag(itag)
+    elif audio_only:
         stream = video.streams.filter(only_audio=True).first()
     else:
         stream = video.streams.first()
     print('Download Started: %s' % video.title)
     stream.download(output_path=output_path, filename=filename)
     print('Download Complete: %s' % video.title)
-    return video.title + '.mp4' if filename is None else filename + '.mp4'
+    file_type = '.' + stream.mime_type.split('/')[1]
+    return video.title + file_type if filename is None else filename + file_type
