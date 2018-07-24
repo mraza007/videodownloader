@@ -38,6 +38,7 @@ def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
         stream = video.streams.filter(only_audio=audio_only, only_video=not audio_only).first()
     print('Download Started: %s' % video.title)
     stream.download(output_path=output_path, filename=filename)
-    print('Download Complete: %s' % video.title)
     file_type = '.' + stream.mime_type.split('/')[1]
-    return video.title + file_type if filename is None else filename + file_type
+    filename = video.title + file_type if filename is None else filename + file_type
+    print('Download Complete! Saved to file: %s' % filename)
+    return filename
