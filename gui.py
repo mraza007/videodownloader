@@ -106,13 +106,13 @@ class YouTubeDownloadGUI(tk.Frame):
                 if self.audio_only.get():
                     text = f'Codec: {stream.audio_codec}, ' \
                            f'ABR: {stream.abr} ' \
-                           f'File Type: {stream.mime_type.split("/")[1]}'
+                           f'File Type: {stream.mime_type.split("/")[1]}, Size: {stream.filesize // 1024} KB'
                 else:
                     if stream.video_codec is None:
                         continue
                     text = f'Res: {stream.resolution}, FPS: {stream.fps},' \
                            f' Video Codec: {stream.video_codec}, Audio Codec: {stream.audio_codec}, ' \
-                           f'File Type: {stream.mime_type.split("/")[1]}'
+                           f'File Type: {stream.mime_type.split("/")[1]}, Size: {stream.filesize // 1024} KB'
                 radio_button = tk.Radiobutton(self, text=text, variable=self.stream, value=stream.itag)
                 self.last_row += 1
                 radio_button.grid(row=self.last_row, column=0, columnspan=4)
