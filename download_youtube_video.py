@@ -5,7 +5,7 @@ from pytube.helpers import safe_filename
 
 def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
                            filename=None, filename_prefix=None,
-                           proxies=None):
+                           proxies=None, progress_callback=None):
     """
     Download a YouTube Video.
     :param url: Full URL to YouTube Video or YouTube Video ID
@@ -33,6 +33,8 @@ def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
         video = YouTube(url, proxies=proxies)
     else:
         video = YouTube(url)
+    if progress_callback:
+        video.register_on_progress_callback(progress_callback)
     if itag:
         itag = int(itag)
         stream = video.streams.get_by_itag(itag)

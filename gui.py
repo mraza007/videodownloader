@@ -5,7 +5,7 @@ import os.path
 
 from pytube import YouTube
 from threading import Thread
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, ttk
 from download_youtube_video import download_youtube_video
 from pytube.exceptions import PytubeError, RegexMatchError
 
@@ -32,6 +32,8 @@ class YouTubeDownloadGUI(tk.Frame):
         self.stream = tk.IntVar(self)
         self.streams = []
         self.stream_widgets = []
+        self.file_size = 0
+        self.progress_bar = None
 
         self.last_row = 0
 
@@ -86,6 +88,7 @@ class YouTubeDownloadGUI(tk.Frame):
         self.stream.set(0)
         [radio_button.destroy() for radio_button in self.stream_widgets]
         if self.btn_download:
+            self.progress_bar.destroy()
             self.btn_download.destroy()
         url = self.text_url.get()
         if 'https' not in url:
@@ -114,6 +117,13 @@ class YouTubeDownloadGUI(tk.Frame):
                 radio_button.grid(row=self.last_row, column=0, columnspan=4)
                 self.stream_widgets.append(radio_button)
             self.last_row += 1
+            self.progress_bar = ttk.Progressbar(self, orient='horizontal', length=350, mode='determinate')
+            self.progress_bar.grid(row=self.last_row, column=1, columnspan=2)
+
+            self.progress_bar['value'] = 0
+            self.progress_bar['maximum'] = 100
+
+            self.last_row += 1
             self.btn_download = tk.Button(self)
             self.btn_download['text'] = 'Download'
             self.btn_download['command'] = self.download
@@ -134,17 +144,25 @@ class YouTubeDownloadGUI(tk.Frame):
         self.btn_output_browse.config(state=tk.DISABLED)
         Thread(target=self.threaded_download).start()
 
+    def update_progress_bar(self, stream, chunk, file_handle, bytes_remaining):
+        percentage = ((self.file_size - bytes_remaining) / self.file_size) * 100
+        self.progress_bar['value'] = percentage
+
     def threaded_download(self):
         try:
             if self.proxy.get() != '':
                 proxy = {self.proxy.get().split(':')[0]: self.proxy.get()}
             else:
                 proxy = None
+            for search_stream in self.streams:
+                if int(search_stream.itag) == int(self.stream.get()):
+                    self.file_size = search_stream.filesize
+                    break
             filename = download_youtube_video(self.text_url.get(), itag=self.stream.get(),
                                               output_path=self.output_path.get(),
                                               filename=self.filename_override.get()
                                               if self.filename_override.get() != '' else None,
-                                              proxies=proxy)
+                                              proxies=proxy, progress_callback=self.update_progress_bar)
             messagebox.showinfo('Download Complete!', 'Download Complete!\n%s' % filename)
         except PytubeError as e:
             messagebox.showerror('Something went wrong...', e)
