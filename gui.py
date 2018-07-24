@@ -104,9 +104,9 @@ class YouTubeDownloadGUI(tk.Frame):
             for stream in self.streams:
                 self.last_row += 1
                 if self.audio_only.get():
-                    text= f'Codec: {stream.audio_codec}, ' \
-                          f'ABR: {stream.abr} ' \
-                          f'File Type: {stream.mime_type.split("/")[1]}'
+                    text = f'Codec: {stream.audio_codec}, ' \
+                           f'ABR: {stream.abr} ' \
+                           f'File Type: {stream.mime_type.split("/")[1]}'
                 else:
                     text = f'Res: {stream.resolution}, FPS: {stream.fps},' \
                            f' Codec: {stream.video_codec}, ' \
