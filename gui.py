@@ -75,8 +75,6 @@ class YouTubeDownloadGUI(tk.Frame):
 
     def browse_output_path(self):
         self.output_path.set(filedialog.askdirectory(initialdir='/', title='Select Output Folder'))
-        self.text_output_path.delete(0, tk.END)
-        self.text_output_path.insert(0, self.output_path.get())
 
     def check_video(self):
         self.btn_check_id['text'] = 'Checking...'
