@@ -96,20 +96,21 @@ class YouTubeDownloadGUI(tk.Frame):
             else:
                 self.video = YouTube(url)
             self.label_video_title['text'] = self.video.title
-            self.streams = self.video.streams.filter(only_audio=self.audio_only.get(),
-                                                     only_video=not self.audio_only.get()).all()
+            self.streams = self.video.streams.filter(only_audio=self.audio_only.get()).all()
 
             for stream in self.streams:
-                self.last_row += 1
                 if self.audio_only.get():
                     text = f'Codec: {stream.audio_codec}, ' \
                            f'ABR: {stream.abr} ' \
                            f'File Type: {stream.mime_type.split("/")[1]}'
                 else:
+                    if stream.video_codec is None:
+                        continue
                     text = f'Res: {stream.resolution}, FPS: {stream.fps},' \
-                           f' Codec: {stream.video_codec}, ' \
+                           f' Video Codec: {stream.video_codec}, Audio Codec: {stream.audio_codec}, ' \
                            f'File Type: {stream.mime_type.split("/")[1]}'
                 radio_button = tk.Radiobutton(self, text=text, variable=self.stream, value=stream.itag)
+                self.last_row += 1
                 radio_button.grid(row=self.last_row, column=0, columnspan=4)
                 self.stream_widgets.append(radio_button)
             self.last_row += 1

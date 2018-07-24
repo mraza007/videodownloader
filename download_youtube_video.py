@@ -37,7 +37,7 @@ def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
         itag = int(itag)
         stream = video.streams.get_by_itag(itag)
     else:
-        stream = video.streams.filter(only_audio=audio_only, only_video=not audio_only).first()
+        stream = video.streams.filter(only_audio=audio_only).first()
     print('Download Started: %s' % video.title)
     if filename:
         filename = safe_filename(filename)
