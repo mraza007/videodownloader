@@ -42,11 +42,6 @@ or use the command line arguments on the script (`script.py`).
 
 **NOTE:** If you are using a proxy, you need https proxy for https URL!
 
-If you would like to suggest changes feel free to fork this repo and create PR or submit an issue
-
-Feel Free to DM on twitter if you have any questions
-[twitter](http://www.twitter.com/muhammad_o7)
-
 ![GUI Screenshot](assets/gui_screenshot.png)![GUI Screenshot Linux](assets/gui_screenshot_linux.png)
 
 Here's the demo on how to use it
@@ -55,3 +50,16 @@ Here's the demo on how to use it
   <a href="https://vimeo.com/281200561"><img width="60%" src="assets/img.png" alt="view demo"></a><br>
 </div>
 
+### Building Windows EXE
+
+If you want to build the Windows EXE manually, make sure you have pywin32 installed,
+as well as pyinstaller. Then run the following command from the script directory.
+
+    pyinstaller --clean --onefile pyinstaller.spec
+    
+### Contributing
+
+If you would like to suggest changes feel free to fork this repo and create PR or submit an issue
+
+Feel Free to DM on twitter if you have any questions
+[twitter](http://www.twitter.com/muhammad_o7)
