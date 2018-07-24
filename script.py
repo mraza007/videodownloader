@@ -75,11 +75,13 @@ def list_streams(url, audio_only=False, proxies=None):
     else:
         video = YouTube(url)
     print(f'{video.title}')
-    for stream in video.streams.filter(only_audio=audio_only, only_video=not audio_only).all():
+    for stream in video.streams.filter(only_audio=audio_only).all():
         if audio_only:
             print(f'ITAG: {stream.itag}, Codec: {stream.audio_codec}, '
                   f'ABR: {stream.abr}, File Type: {stream.mime_type.split("/")[1]}')
         else:
+            if stream.video_codec is None:
+                continue
             print(f'ITAG: {stream.itag}, Res: {stream.resolution}, FPS: {stream.fps}, '
                   f'Codec: {stream.video_codec}, File Type: {stream.mime_type.split("/")[1]}')
 
