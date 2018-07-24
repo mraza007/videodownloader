@@ -83,7 +83,8 @@ def list_streams(url, audio_only=False, proxies=None):
             if stream.video_codec is None:
                 continue
             print(f'ITAG: {stream.itag}, Res: {stream.resolution}, FPS: {stream.fps}, '
-                  f'Codec: {stream.video_codec}, File Type: {stream.mime_type.split("/")[1]}')
+                  f'Video Codec: {stream.video_codec}, Audio Codec: {stream.audio_codec}, '
+                  f'File Type: {stream.mime_type.split("/")[1]}')
 
     print('\n\nTo download a specific stream, use the -i/--itag argument and provide the ITAG ID.')
 
