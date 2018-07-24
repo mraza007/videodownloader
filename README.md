@@ -16,8 +16,10 @@ python3 script.py
 
 ### Usage
 
-You can either run the script directly for interactive mode, or use the command line arguments.
+You can either run the GUI (`gui.py`), the script (`script.py`) directly for interactive mode,
+or use the command line arguments on the script (`script.py`).
 
+    python3 gui.py
     python3 script.py
     python3 script.py -u rfscVS0vtbw -o videos/ -f my_downloaded_video
     python3 script.py -u rfscVS0vtbw -o audio/ -f my_downloaded_audio --audio-only
