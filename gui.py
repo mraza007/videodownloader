@@ -10,8 +10,6 @@ from pytube.exceptions import PytubeError, RegexMatchError
 
 class YouTubeDownloadGUI(tk.Frame):
 
-    thread = None
-
     def __init__(self, master=None):
         super().__init__(master)
         self.pack()
