@@ -1,4 +1,3 @@
-from io import BytesIO
 from os import makedirs
 from pytube import YouTube
 from pytube.compat import urlopen
