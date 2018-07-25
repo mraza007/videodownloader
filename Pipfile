@@ -8,6 +8,7 @@ pip = "*"
 "urllib3" = "*"
 requests = "*"
 pytube = "*"
+Pillow = "*"
 
 [dev-packages]
 
