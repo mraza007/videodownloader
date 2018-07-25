@@ -4,7 +4,7 @@ import argparse
 
 
 from pytube import YouTube
-from download_youtube_video import download_youtube_video
+from utils import download_youtube_video
 
 
 def get_header():

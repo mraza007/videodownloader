@@ -1,6 +1,30 @@
 from os import makedirs
 from pytube import YouTube
+from pytube.compat import urlopen
 from pytube.helpers import safe_filename
+from pytube.extract import video_id as get_video_id
+
+
+THUMBNAIL_QAULITY_LOW = 'sddefault'
+THUMBNAIL_QAULITY_MED = 'mqdefault'
+THUMBNAIL_QAULITY_HI = 'hqdefault'
+THUMBNAIL_QAULITY_MAX = 'maxresdefault'
+
+
+def get_thumbnail_url(url=None, video=None, quality=THUMBNAIL_QAULITY_MED):
+    if url is None and video is None:
+        raise ValueError('You must provide either a url or YouTube object.')
+    if video:
+        return f'{video.thumbnail_url.rsplit("/", 1)[0]}/{quality}.jpg'
+    if 'http' in url:
+        video_id = get_video_id(url)
+        return f'https://i.ytimg.com/vi/{video_id}/{quality}.jpg'
+    return f'https://i.ytimg.com/vi/{url}/{quality}.jpg'
+
+
+def get_thumbnail(url):
+    response = urlopen(url)
+    return response
 
 
 def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
