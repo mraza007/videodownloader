@@ -3,10 +3,12 @@ import tkinter as tk
 import os.path
 
 
+from os import getcwd
+from PIL import Image, ImageTk
 from pytube import YouTube
 from threading import Thread
 from tkinter import filedialog, messagebox, ttk
-from download_youtube_video import download_youtube_video
+from utils import download_youtube_video, get_thumbnail_url, get_thumbnail
 from pytube.exceptions import PytubeError, RegexMatchError
 
 
@@ -34,6 +36,8 @@ class YouTubeDownloadGUI(tk.Frame):
         self.stream_widgets = []
         self.file_size = 0
         self.progress_bar = None
+        self.img_thumbnail = None
+        self.label_thumbnail = None
 
         self.last_row = 0
 
@@ -49,6 +53,7 @@ class YouTubeDownloadGUI(tk.Frame):
         self.btn_check_id.grid(row=0, column=3)
 
         tk.Label(self, text='Output Directory').grid(row=1, column=0)
+        self.output_path.set(getcwd())
         self.text_output_path = tk.Entry(self, width=60, textvariable=self.output_path)
         self.text_output_path.grid(row=1, column=1, columnspan=2)
         self.btn_output_browse = tk.Button(self)
@@ -77,7 +82,7 @@ class YouTubeDownloadGUI(tk.Frame):
         self.last_row = 5
 
     def browse_output_path(self):
-        self.output_path.set(filedialog.askdirectory(initialdir='/', title='Select Output Folder'))
+        self.output_path.set(filedialog.askdirectory(initialdir=self.output_path.get(), title='Select Output Folder'))
 
     def check_video(self):
         self.btn_check_id['text'] = 'Checking...'
@@ -100,8 +105,15 @@ class YouTubeDownloadGUI(tk.Frame):
             else:
                 self.video = YouTube(url)
             self.label_video_title['text'] = self.video.title
-            self.streams = self.video.streams.filter(only_audio=self.audio_only.get()).all()
 
+            img_data = get_thumbnail(get_thumbnail_url(video=self.video))
+            self.img_thumbnail = ImageTk.PhotoImage(Image.open(img_data))
+            self.label_thumbnail = tk.Label(self, image=self.img_thumbnail)
+            self.last_row += 1
+            self.label_thumbnail.grid(row=self.last_row, column=1, columnspan=2)
+
+
+            self.streams = self.video.streams.filter(only_audio=self.audio_only.get()).all()
             for stream in self.streams:
                 if self.audio_only.get():
                     text = f'Codec: {stream.audio_codec}, ' \
