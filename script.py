@@ -5,6 +5,7 @@ import argparse
 
 from pytube import YouTube
 from utils import download_youtube_video
+from utils import download_fhd_plus
 
 
 def get_header():
@@ -48,7 +49,24 @@ def interactive_mode():
             url = input('Enter Url: ')
             form = input('Do you want to download video or audio: ')
             if form.lower() in ['video', 'v']:
-                download_youtube_video(url, output_path='videos/')
+                resolutions = set()
+                for stream in YouTube(url).streams.filter(type='video').all():
+                    if (int(stream.resolution[:-1])) > 720:
+                        resolutions.add(stream.resolution)
+                resolution_choice = 1  # Default for 720p or lower
+                if resolutions:
+                    print('Choose a resolution from below:')
+                    print('1 . 720p or lower')
+                    for i, res in enumerate(sorted(resolutions)):
+                        print(i+2, '.', res)
+                    resolution_choice = int(input(('Enter a choice between [1-%s]: ' % str(len(resolutions)+1))))
+                if resolution_choice == 1:
+                    download_youtube_video(url, output_path='videos/')
+                elif resolution_choice > len(resolutions)+1:
+                    print('Invalid choice')
+                    break
+                else:
+                    download_fhd_plus(url, resolution=sorted(resolutions)[resolution_choice-2])
 
             elif form.lower() in ['audio', 'a']:
                 warn = input('Audio Downloads take longer Do you want to Continue Y/n: ')
