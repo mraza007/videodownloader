@@ -27,9 +27,9 @@ def get_thumbnail(url):
     return response
 
 
-def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
+def download_youtube_video(url=None, itag=None, audio_only=False, output_path=None,
                            filename=None, filename_prefix=None,
-                           proxies=None, progress_callback=None):
+                           proxies=None, progress_callback=None, video_and_stream=None):
     """
     Download a YouTube Video.
     :param url: Full URL to YouTube Video or YouTube Video ID
@@ -49,21 +49,26 @@ def download_youtube_video(url, itag=None, audio_only=False, output_path=None,
     :return: Filename of downloaded video/audio
     :rtype: str
     """
+    if url is None and video_and_stream is None:
+        raise ValueError('You must provide either a url or video/stream object tuple')
     if output_path:
         makedirs(output_path, exist_ok=True)
-    if 'http' not in url:
-        url = 'https://www.youtube.com/watch?v=%s' % url
-    if proxies:
-        video = YouTube(url, proxies=proxies)
+    if video_and_stream is None:
+        if 'http' not in url:
+            url = 'https://www.youtube.com/watch?v=%s' % url
+        if proxies:
+            video = YouTube(url, proxies=proxies)
+        else:
+            video = YouTube(url)
+        if itag:
+            itag = int(itag)
+            stream = video.streams.get_by_itag(itag)
+        else:
+            stream = video.streams.filter(only_audio=audio_only).first()
     else:
-        video = YouTube(url)
+        video, stream = video_and_stream
     if progress_callback:
         video.register_on_progress_callback(progress_callback)
-    if itag:
-        itag = int(itag)
-        stream = video.streams.get_by_itag(itag)
-    else:
-        stream = video.streams.filter(only_audio=audio_only).first()
     print('Download Started: %s' % video.title)
     if filename:
         filename = safe_filename(filename)
