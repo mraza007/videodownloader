@@ -43,7 +43,7 @@ class YouTubeDownloadGUI(tk.Frame):
         tk.Label(self, text='YouTube URL/ID').grid(row=0, column=0)
         self.text_url = tk.Entry(self, width=60)
         self.text_url.grid(row=0, column=1, columnspan=2)
-        self.btn_check_id = tk.Button(self)
+        self.btn_check_id = tk.Button(self, width=10)
         self.btn_check_id['text'] = 'Check Video'
         self.btn_check_id['command'] = self.check_video
         self.btn_check_id.grid(row=0, column=3)
@@ -51,7 +51,7 @@ class YouTubeDownloadGUI(tk.Frame):
         tk.Label(self, text='Output Directory').grid(row=1, column=0)
         self.text_output_path = tk.Entry(self, width=60, textvariable=self.output_path)
         self.text_output_path.grid(row=1, column=1, columnspan=2)
-        self.btn_output_browse = tk.Button(self)
+        self.btn_output_browse = tk.Button(self, width=10)
         self.btn_output_browse['text'] = 'Browse...'
         self.btn_output_browse['command'] = self.browse_output_path
         self.btn_output_browse.grid(row=1, column=3)
@@ -74,7 +74,35 @@ class YouTubeDownloadGUI(tk.Frame):
 
         self.label_video_title = tk.Label(self)
         self.label_video_title.grid(row=5, column=0, columnspan=4)
-        self.last_row = 5
+
+        self.content = tk.Frame(self, relief='groove', bd=3)
+        self.canvas = tk.Canvas(self.content, borderwidth=0, height=250, width=600)
+        self.scrll_bar = tk.Scrollbar(self.content, orient="vertical", command=self.canvas.yview)
+        self.frame = tk.Frame(self.canvas)
+        self.canvas.configure(yscrollcommand=self.scrll_bar.set)
+
+        self.content.grid_configure(row=6, column=0, rowspan=1, columnspan=4, sticky='NSEW')
+        self.scrll_bar.pack(side="right", fill="y")
+        self.canvas.pack(side='left')
+        self.canvas.create_window((0, 0), window=self.frame, anchor="nw",
+                                  tags="self.frame")
+
+        self.frame.bind("<Configure>", self.on_frame_configure)
+
+        self.progress_bar = ttk.Progressbar(self, orient='horizontal', length=350, mode='determinate')
+        self.progress_bar.grid(row=7, column=1, columnspan=2)
+
+        self.progress_bar['value'] = 0
+        self.progress_bar['maximum'] = 100
+
+        self.btn_download = tk.Button(self)
+        self.btn_download['text'] = 'Download'
+        self.btn_download['command'] = self.download
+        self.btn_download.config(state=tk.NORMAL)
+        self.btn_download.grid(row=8, column=1, columnspan=2)
+
+    def on_frame_configure(self, event):
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def browse_output_path(self):
         self.output_path.set(filedialog.askdirectory(initialdir='/', title='Select Output Folder'))
@@ -85,12 +113,9 @@ class YouTubeDownloadGUI(tk.Frame):
         Thread(target=self.threaded_check_video).start()
 
     def threaded_check_video(self):
-        self.last_row = 5
+        self.last_row = 0
         self.stream.set(0)
         [radio_button.destroy() for radio_button in self.stream_widgets]
-        if self.btn_download:
-            self.progress_bar.destroy()
-            self.btn_download.destroy()
         url = self.text_url.get()
         if 'https' not in url:
             url = 'https://www.youtube.com/watch?v=%s' % url
@@ -113,23 +138,10 @@ class YouTubeDownloadGUI(tk.Frame):
                     text = f'Res: {stream.resolution}, FPS: {stream.fps},' \
                            f' Video Codec: {stream.video_codec}, Audio Codec: {stream.audio_codec}, ' \
                            f'File Type: {stream.mime_type.split("/")[1]}, Size: {stream.filesize // 1024} KB'
-                radio_button = tk.Radiobutton(self, text=text, variable=self.stream, value=stream.itag)
+                radio_button = tk.Radiobutton(self.frame, text=text, variable=self.stream, value=stream.itag)
                 self.last_row += 1
                 radio_button.grid(row=self.last_row, column=0, columnspan=4)
                 self.stream_widgets.append(radio_button)
-            self.last_row += 1
-            self.progress_bar = ttk.Progressbar(self, orient='horizontal', length=350, mode='determinate')
-            self.progress_bar.grid(row=self.last_row, column=1, columnspan=2)
-
-            self.progress_bar['value'] = 0
-            self.progress_bar['maximum'] = 100
-
-            self.last_row += 1
-            self.btn_download = tk.Button(self)
-            self.btn_download['text'] = 'Download'
-            self.btn_download['command'] = self.download
-            self.btn_download.config(state=tk.NORMAL)
-            self.btn_download.grid(row=self.last_row, column=1, columnspan=2)
         except PytubeError as e:
             messagebox.showerror('Something went wrong...', e)
         except RegexMatchError as e:
